@@ -12,7 +12,7 @@ def update_readings(): # update fields with new temp and eCO2 readings
         wetness_field.value = str(pm.get_wetness())
         temp_c_field.value = str(pm.get_temp())
         humidity_field.value = str(pm.get_humidity())
-        time.sleep(1)
+        time.sleep(2)
 
 t1 = threading.Thread(target=update_readings)
 
