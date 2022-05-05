@@ -1,5 +1,4 @@
 import time
-from aq import AQ
 
 from plant_monitor import PlantMonitor
 pm = PlantMonitor()
