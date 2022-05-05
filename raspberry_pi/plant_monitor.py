@@ -51,7 +51,3 @@ class PlantMonitor:
             elif code == "h":
                 self.humidity = float(value)
         
-pm = PlantMonitor()
-while True:
-    print(pm.get_wetness())   
-    time.sleep(1)
