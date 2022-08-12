@@ -4,8 +4,8 @@ from pmon import PlantMonitor
 import time
 import uasyncio as asyncio
 
-ssid = 'MONKMAKES_GUEST'
-password = '6KeCt4cu9YfY'
+ssid = 'network name'
+password = 'password'
 
 html = """
 <!DOCTYPE html>
@@ -13,7 +13,7 @@ html = """
 <html>
     <head> <title>My Plant</title> </head>
     <body>
-        <h1>My fancy Plant Monitor</h1>
+        <h1>Pico W Plant Monitor</h1>
         <h2>Water: {water}</h2>
         <h2>Temp (C): {temp}</h2>
         <h2>Humidity: {humidity}</h2>
