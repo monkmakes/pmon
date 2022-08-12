@@ -14,7 +14,10 @@ class PlantMonitor:
     analog = ADC(28)
     
     def __init__(self):
-         self.uart = UART(0, 9600, timeout=400)
+        try:
+            self.uart = UART(0, 9600, timeout=400)
+        except:
+            raise Exception('Unable to connect to the Plant Monitor. Check your wiring.')
          
     def get_wetness(self):
         return int(self.request_property("w"))
@@ -34,6 +37,11 @@ class PlantMonitor:
     def request_property(self, cmd):
         self.uart.write(cmd)
         line = self.uart.readline()
-        value_str = line[2:-2].decode()
-        return value_str
+        if line != None and len(line) > 3:
+            value_str = line[2:-2].decode()
+            return value_str
+        else:
+            print('Communication Problem with Plant Monitor. Check your wiring.')
+            return 0
+
 
