@@ -1,8 +1,6 @@
-import network
-import socket
+from microdot import Microdot
+import mm_wlan
 from pmon import PlantMonitor
-import time
-import uasyncio as asyncio
 
 ssid = 'network name'
 password = 'password'
@@ -21,54 +19,15 @@ html = """
 </html>
 """
 pm = PlantMonitor()
-wlan = network.WLAN(network.STA_IF)
+app = Microdot()
+mm_wlan.connect_to_network(ssid, password)
 
-def connect_to_network():
-    wlan.active(True)
-    wlan.config(pm = 0xa11140)  # Disable power-save mode
-    wlan.connect(ssid, password)
-
-    max_wait = 10
-    while max_wait > 0:
-        if wlan.status() < 0 or wlan.status() >= 3:
-            break
-        max_wait -= 1
-        print('waiting for connection...')
-        time.sleep(1)
-
-    if wlan.status() != 3:
-        raise RuntimeError('network connection failed')
-    else:
-        print('connected')
-        status = wlan.ifconfig()
-        print('ip = ' + status[0])
-
-async def serve_client(reader, writer):
-    request_line = await reader.readline()
-    # We are not interested in HTTP request headers, skip them
-    while await reader.readline() != b"\r\n":
-        pass
+@app.route('/')
+def index(request):
     w = pm.get_wetness()
     t = pm.get_temp()
     h = pm.get_humidity()
     response = html.format(water=w, temp=t, humidity=h)
-    writer.write('HTTP/1.0 200 OK\r\nContent-type: text/html\r\n\r\n')
-    writer.write(response)
+    return response, {'Content-Type': 'text/html'}
 
-    await writer.drain()
-    await writer.wait_closed()
-    print("Client disconnected")
-
-async def main():
-    print('Connecting to Network...')
-    connect_to_network()
-
-    print('Setting up webserver...')
-    asyncio.create_task(asyncio.start_server(serve_client, "0.0.0.0", 80))
-    while True:
-        await asyncio.sleep(5)
-        
-try:
-    asyncio.run(main())
-finally:
-    asyncio.new_event_loop()
+app.run(port=80)
