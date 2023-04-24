@@ -20,7 +20,7 @@ class PlantMonitor:
             raise Exception('Unable to connect to the Plant Monitor. Check your wiring.')
          
     def get_wetness(self):
-        return int(self.request_property("w"))
+        return float(self.request_property("w"))
 
     def get_temp(self):
         return float(self.request_property("t"))
