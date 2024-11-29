@@ -5,8 +5,6 @@ time.sleep(2) # PlantMonitor startup time
 
 pm = PlantMonitor(uart=2)
 
-print("here")
-
 while True:
     w = pm.get_wetness()
     t = pm.get_temp()
