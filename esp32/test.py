@@ -3,7 +3,7 @@ import time
 
 time.sleep(2) # PlantMonitor startup time
 
-pm = PlantMonitor()
+pm = PlantMonitor(uart=2)
 
 print("here")
 

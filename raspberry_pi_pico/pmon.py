@@ -13,9 +13,9 @@ class PlantMonitor:
 
     analog = ADC(28)
     
-    def __init__(self):
+    def __init__(self, uart=0):
         try:
-            self.uart = UART(0, 9600, timeout=400)
+            self.uart = UART(uart, 9600, timeout=400)
         except:
             raise Exception('Unable to connect to the Plant Monitor. Check your wiring.')
          
