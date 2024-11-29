@@ -10,8 +10,6 @@ class PlantMonitor:
 
     uart = None
     led_on = True
-
-    analog = ADC(28)
     
     def __init__(self, uart=0):
         try:
